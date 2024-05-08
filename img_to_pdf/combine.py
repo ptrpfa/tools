@@ -1,6 +1,7 @@
 from PIL import Image
-import os, sys
 from PyPDF2 import PdfWriter
+from natsort import natsorted
+import os, sys
 import shutil
 import tempfile
 
@@ -73,7 +74,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     png_files = [f for f in os.listdir(folder_path) if f.endswith('.png')]
-    png_files.sort()
+    png_files = natsorted(png_files)
     image_paths = [os.path.join(folder_path, f) for f in png_files]
 
     output_path = "output.png"
