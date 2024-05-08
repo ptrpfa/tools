@@ -4,6 +4,8 @@ from PyPDF2 import PdfWriter
 import shutil
 import tempfile
 
+Image.MAX_IMAGE_PIXELS = None
+
 def append_images_vertically(image_paths, output_path):
     images = [Image.open(image_path) for image_path in image_paths]
     widths, heights = zip(*(i.size for i in images))
@@ -94,6 +96,12 @@ if __name__ == "__main__":
     combine_images_to_pdf(image_parts, output_pdf_path)
 
     print("PDF file created successfully.")
+
+    # Define the Downloads folder path
+    downloads_folder = os.path.join(os.path.expanduser("~"), "Downloads")
+
+    # Move the PDF file to the Downloads folder
+    shutil.move(output_pdf_path, os.path.join(downloads_folder, output_pdf_path))
 
     # Remove the image_parts folder after creating the PDF
     shutil.rmtree(output_folder)
