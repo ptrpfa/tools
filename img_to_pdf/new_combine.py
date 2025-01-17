@@ -57,20 +57,22 @@ if __name__ == "__main__":
         print("Error: Invalid folder path.")
         sys.exit(1)
 
-    png_files = natsorted([f for f in os.listdir(folder_path) if f.endswith('.png')])
-    image_paths = [os.path.join(folder_path, f) for f in png_files]
+    # Find all PNG and JPG files in the folder
+    image_files = natsorted(
+        [f for f in os.listdir(folder_path) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+    )
+    image_paths = [os.path.join(folder_path, f) for f in image_files]
 
     output_folder = "image_parts"  # Folder to store the split images
     output_pdf_path = f"{output_name}.pdf"  # Output PDF file
 
-
-    # Split the image
+    # Load images
     image_parts = [Image.open(image_path) for image_path in image_paths]
 
-    # Save the split images
+    # Save the images into the output folder
     save_images(image_parts, output_folder)
 
-    # Combine split images into PDF
+    # Combine images into a PDF
     combine_images_to_pdf(image_parts, output_pdf_path)
 
     print("PDF file created successfully.")
